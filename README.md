@@ -8,7 +8,7 @@ Description:
               containers. 
   
               SwiftChecker supports full directory scanning, meaning each file
-              in a specfied directory is compared against objects stored in
+              in a specified directory is compared against objects stored in
               a swift container. SwiftChecker is designed to work
               efficiently on large files > available ram.
               
