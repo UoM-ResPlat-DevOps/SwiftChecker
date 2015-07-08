@@ -7,6 +7,7 @@
 #             Calculate OpenStack Swift Etag Checksum for segments
 #             Useful for validating uploaded segmented objects with original file.
 
+
 import hashlib
 import sys
 import os
