@@ -327,7 +327,7 @@ my_objects_start_with/this/prefix/or/path
                         object name in swift to compare against. \
                         For directory comparison, this is an \
                         optional prefix/path to append to the \
-                        begining of file names during\
+                        beginning of file names during\
                         comparison''', nargs='?')
 
     return parser
