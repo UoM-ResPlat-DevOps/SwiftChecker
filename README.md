@@ -8,7 +8,7 @@ Description: Compare local files or folders with objects stored in swift
               
               SwiftChecker detects whether or not a swift object
               is stored as a segmented object. If the object is segmented, the
-              local file is split and the individual md5 hashe for each
+              local file is split and the individual md5 hash for each
               segment is calculated. 
               
               The swift ETag value is also calculated
