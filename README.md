@@ -6,6 +6,11 @@ usage: swift_checker.py [-h] [-c C] [-v] [-vv] [-w]
 Description: 
               Compare local files or folders with objects stored in swift
               containers. 
+  
+              SwiftChecker supports full directory scanning, meaning each file
+              in a specfied directory is compared against objects stored in
+              a swift container. SwiftChecker is designed to work
+              efficiently on large files > available ram.
               
               SwiftChecker detects whether or not a swift object
               is stored as a segmented object. If the object is segmented, the
@@ -18,11 +23,6 @@ Description:
               The ETag and segment hashes are used to compare the
               local file against the external swift object using swift client
               api calls.
-              
-              SwiftChecker supports full directory scanning, meaning each file
-              in a specfied directory is compared against objects stored in
-              a swift container. SwiftChecker is designed to work
-              efficiently on large files > available ram.
               
               OS Support: Linux, OSX, Windows
               
