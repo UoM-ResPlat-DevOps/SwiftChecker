@@ -10,8 +10,7 @@ Description: Compare local files or folders with objects stored in swift
               segment are calculated. The swift ETag value is also calculated
               locally by hashing a concatinated string of the segement
               hashes. The ETag and segment hashes are used to compare the
-              local file against the external swift object
-
+              local file against the external swift object.
               OS Support: Linux, OSX, Windows
               Requires: python-keystoneclient python-swiftclient
 
