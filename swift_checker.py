@@ -159,7 +159,7 @@ def split(filename, segment_size, segment_container):
 
         md5hash = hashlib.md5()
 
-        # Read and write data to each segment
+        # Read data from  each segment
 
         while read_bytes < segment_size:
 
@@ -178,7 +178,7 @@ def split(filename, segment_size, segment_container):
             except (OSError, IOError), e:
                 raise_error("Error reading from file")
 
-            # Update number of bytes read/written
+            # Update number of bytes read 
             read_bytes = read_bytes + n_bytes
             read_bytes_total = read_bytes + n_bytes
 
