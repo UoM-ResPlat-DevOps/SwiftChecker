@@ -1,7 +1,8 @@
+## SwiftChecker:
+
+
 usage: swift_checker.py [-h] [-c C] [-v] [-vv] [-w]
                         path container [object_or_path]
-
-SwiftChecker:
 
 positional arguments:
 *   path                  The full path to a file or directory that you would
@@ -24,7 +25,7 @@ optional arguments:
 
 Single File Comparisons:
 
-*   1. Example: Compare local file with object sharing the same name in swift container
+*    1. Example: Compare local file with object sharing the same name in swift container
        ./swift_checker.py filename container
 
 *    2: Example: Compare local file with object having a differentname or path
@@ -43,6 +44,8 @@ Directory Comparison:
 
        ./swift_checker.py /absolute_path/to_my_files container my_objects_start_with/this/prefix/or/path
 
+
+## SwiftEtag
 
 usage: swift_etag.py [-h] [-s] filename segment_size
 
