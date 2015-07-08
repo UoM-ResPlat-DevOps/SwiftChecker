@@ -27,10 +27,10 @@ Description: Compare local files or folders with objects stored in swift
               Requires: python-keystoneclient python-swiftclient
 
 positional arguments:
-*   path                  The full path to a file or directory that you would
+*   path:                The full path to a file or directory that you would
                         like to check against a swift object or container
-*   container             Name of the Swift container to check
-*   object_or_path        Optional: For file comparison this is the specific
+*   container:           Name of the Swift container to check
+*   object_or_path:      Optional: For file comparison this is the specific
                         object name in swift to compare against. For directory
                         comparison, this is an optional prefix/path to append
                         to the begining of file names during comparison
