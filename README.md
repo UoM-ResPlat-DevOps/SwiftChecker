@@ -71,7 +71,9 @@ Directory Comparison:
 
 usage: swift_etag.py [-h] [-s] filename segment_size
 
-Description: Segment a local file and calculate MD5 checksums of each segment.
+Description: 
+
+             Segment a local file and calculate MD5 checksums of each segment.
              Calculate OpenStack Swift Etag Checksum for segments.
              Useful for validating uploaded segmented objects with original file.
 
