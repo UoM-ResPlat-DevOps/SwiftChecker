@@ -4,10 +4,14 @@ usage: swift_checker.py [-h] [-c C] [-v] [-vv] [-w]
                         path container [object_or_path]
                         
 Description: Compare local files or folders with objects stored in swift
-              containers. SwiftChecker detects whether or not a swift object
+              containers. 
+              
+              SwiftChecker detects whether or not a swift object
               is stored as a segmented object. If the object is segmented, the
               local file is segmeneted and the individual md5 hashes for each
-              segment are calculated. The swift ETag value is also calculated
+              segment are calculated. 
+              
+              The swift ETag value is also calculated
               locally by hashing a concatinated string of the segement
               hashes. The ETag and segment hashes are used to compare the
               local file against the external swift object.
