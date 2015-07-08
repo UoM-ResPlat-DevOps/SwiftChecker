@@ -16,6 +16,7 @@ Description: Compare local files or folders with objects stored in swift
               hashes. The ETag and segment hashes are used to compare the
               local file against the external swift object.
               OS Support: Linux, OSX, Windows
+              
               Requires: python-keystoneclient python-swiftclient
 
 positional arguments:
