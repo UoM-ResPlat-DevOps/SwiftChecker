@@ -35,7 +35,7 @@ optional arguments:
 
 Single File Comparisons:
 
-*    1. Example: Compare local file with object sharing the same name in swift container
+*    1: Example: Compare local file with object sharing the same name in swift container
        ./swift_checker.py filename container
 
 *    2: Example: Compare local file with object having a differentname or path
