@@ -35,7 +35,7 @@ positional arguments:
 *   object_or_path:      Optional: For file comparison this is the specific
                         object name in swift to compare against. For directory
                         comparison, this is an optional prefix/path to append
-                        to the begining of file names during comparison
+                        to the beginning of file names during comparison
 
 optional arguments:
 *   -h, --help            show this help message and exit
