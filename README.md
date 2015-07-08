@@ -3,7 +3,8 @@
 usage: swift_checker.py [-h] [-c C] [-v] [-vv] [-w]
                         path container [object_or_path]
                         
-Description: Compare local files or folders with objects stored in swift
+Description: 
+              Compare local files or folders with objects stored in swift
               containers. 
               
               SwiftChecker detects whether or not a swift object
