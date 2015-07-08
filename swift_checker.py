@@ -8,15 +8,15 @@
 # Description: Compare local files or folders with objects stored in swift
 #              containers. SwiftChecker detects whether or not a swift object
 #              is stored as a segmented object. If the object is segmented, the
-#              local file is segmeneted and the individual md5 hashes for each
-#              segment are calculated. The swift ETag value is also calculated
-#              locally by hashing a concatinated string of the segement
-#              hashes. The ETag and segment hashes are used to compare the
-#              local file against the external swift object
-#
+#              local file is split and the md5 hash for each segment is 
+#              calculated. The object's swift ETag value is also calculated 
+#              locally by hashing a concatinated string of the segement hashes. 
+#              The ETag and segment hashes are used to compare the
+#              local file against the external swift object.
 #              SwiftChecker supports full directory scanning, meaning each file
 #              in a specfied directory is compared against objects stored in
-#              a swift container.
+#              a swift container. SwiftChecker is designed to work efficiently on 
+#              large files > available ram.
 #
 #              OS Supported: Linux, OSX & Windows
 #              Requires: python-keystoneclient & python-swiftclient
