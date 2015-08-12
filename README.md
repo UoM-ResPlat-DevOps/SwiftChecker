@@ -3,24 +3,26 @@
 usage: swift_checker.py [-h] [-c C] [-v] [-vv] [-w]
                         path container [object_or_path]
                         
-Description: Compare local files or folders with objects stored in swift
+Description: 
+              Compare local files or folders with objects stored in swift
               containers. 
+  
+              SwiftChecker supports full directory scanning, meaning each file
+              in a specified directory is compared against objects stored in
+              a swift container. SwiftChecker is designed to work
+              efficiently on large files > available ram.
               
               SwiftChecker detects whether or not a swift object
               is stored as a segmented object. If the object is segmented, the
-              local file is split and the individual md5 hash for each
-              segment is calculated. 
+              local file is split and the md5 hash is calculated for each segment.
               
-              The swift ETag value is also calculated
+              The object's Swift ETag value is also calculated
               locally by hashing a concatinated string of the segement
               hashes. 
               
               The ETag and segment hashes are used to compare the
-              local file against the external swift object.
-              
-              SwiftChecker supports full directory scanning, meaning each file
-              in a specfied directory is compared against objects stored in
-              a swift container.
+              local file against the external swift object using swift client
+              api calls.
               
               OS Support: Linux, OSX, Windows
               
@@ -33,7 +35,7 @@ positional arguments:
 *   object_or_path:      Optional: For file comparison this is the specific
                         object name in swift to compare against. For directory
                         comparison, this is an optional prefix/path to append
-                        to the begining of file names during comparison
+                        to the beginning of file names during comparison
 
 optional arguments:
 *   -h, --help            show this help message and exit
