@@ -65,12 +65,12 @@ def display_output(column1, column2, column3, column4):
 
 
 def swift_client(config_file):
-    auth_username = ""
-    auth_password = ""
-    auth_tenant_id = ""
-    auth_tenant_name = ""
-    auth_region_name = ""
-    auth_url = ""
+        #    auth_username = ""
+#    auth_password = ""
+#    auth_tenant_id = ""
+#    auth_tenant_name = ""
+#    auth_region_name = ""
+#    auth_url = ""
     if config_file:
         with open(config_file, 'r') as f:
             for line in f:
