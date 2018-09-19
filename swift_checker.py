@@ -151,8 +151,7 @@ def split(filename, segment_size, segment_container):
     read_bytes_total = 0
 
     # Total number of segments is
-    number_of_segments = math.floor(filesize / segment_size) + 1
-
+    number_of_segments = len(segment_container)
     # Hash for the complete file
 
     filehash = hashlib.md5()
@@ -230,6 +229,7 @@ def compare_file_with_object(sc, filename, container, objectname):
     head_object = sc.head_object(container, objectname)
 # If the object has a manifest, then it is a segmented file
     if 'x-object-manifest' in head_object:
+        print "segments"
         if verbose_mode == 2:
             print "Calculating Segments: "
         if verbose_mode != 0:
@@ -245,9 +245,11 @@ def compare_file_with_object(sc, filename, container, objectname):
     # name, bytes in a data structure
         container_obj_list = sc.get_container(segment_container_name,
                                                   full_listing='True')[1]
+       
         for o in container_obj_list:
-            x = swift_obj(o['name'], o['hash'], o['bytes'])
-            segment_container.append(x)
+            if head_object['x-object-manifest'][len(container + "_segments/"):] in o['name']:
+                x = swift_obj(o['name'], o['hash'], o['bytes'])
+                segment_container.append(x)
     # Begin the segmentation locally, using the segment size obtianed from
     # the first object in the segment container
     # Supply the segment_container data structure such that comparisons can be
@@ -263,7 +265,7 @@ def compare_file_with_object(sc, filename, container, objectname):
     swift_etag = swift_etag.strip('"')
 
     if verbose_mode >= 1:
-        display_output("ETag:", "", swift_etag, local_hash)
+        display_output("ETag:", "", local_hash, swift_etag)
         display_break("-")
 
     if swift_etag == local_hash:
