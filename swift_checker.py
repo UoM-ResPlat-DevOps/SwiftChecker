@@ -45,13 +45,13 @@ class swift_obj:
 
 
 def raise_error(error_msg):
-    print error_msg
+    print(error_msg)
     sys.exit(1)
 
 
 def display_break(c):
     width = len(OUTPUT_FORMAT.format("", "", "", "", "", ""))
-    print c * width
+    print((c * width))
 
 
 def display_header():
@@ -61,7 +61,7 @@ def display_header():
 
 
 def display_output(column1, column2, column3, column4):
-    print OUTPUT_FORMAT.format(column1, column2, "|",  column3, " | ", column4)
+    print((OUTPUT_FORMAT.format(column1, column2, "|",  column3, " | ", column4)))
 
 
 def swift_client(config_file):
@@ -108,8 +108,8 @@ def swift_client(config_file):
                      os.environ['OS_PASSWORD'], os.environ['OS_TENANT_ID'])
     for var in auth_vars:
         if not var:
-            print "Missing openstack environment variables,\
-            try sourcing your openrc file, exiting."
+            print("Missing openstack environment variables,\
+            try sourcing your openrc file, exiting.")
             sys.exit(1)
 
     try:
@@ -122,7 +122,7 @@ def swift_client(config_file):
                                                         auth_region_name})
     except:
         error_dict = vars(sys.exc_info()[1])
-        print error_dict
+        print(error_dict)
         sys.exit(1)
 
     return swift_conn
@@ -140,12 +140,12 @@ def split(filename, segment_size, segment_container):
     hash = ""
     try:
         f = open(filename, 'rb')
-    except (OSError, IOError), e:
+    except (OSError, IOError) as e:
         raise_error("Could not open file")
         exit
     try:
         filesize = os.path.getsize(filename)
-    except (OSError), e:
+    except (OSError) as e:
         raise_error("File size could not be determined")
     segment_count = 0
     read_bytes_total = 0
@@ -180,7 +180,7 @@ def split(filename, segment_size, segment_container):
                 chunk = f.read(n_bytes)
                 md5hash.update(chunk)
                 filehash.update(chunk)
-            except (OSError, IOError), e:
+            except (OSError, IOError) as e:
                 raise_error("Error reading from file")
 
             # Update number of bytes read 
@@ -218,20 +218,20 @@ def compare_file_with_object(sc, filename, container, objectname):
     try:
         swift_etag = sc.head_object(container, objectname)['etag']
     except:
-        print sys.exc_info()
+        print((sys.exc_info()))
         error_dict = vars(sys.exc_info()[1])
         if error_dict['http_reason'] == 'Not Found':
-            print "Swift Error: object not found,", objectname
+            print(("Swift Error: object not found,", objectname))
             return 1
         else:
-            print error_dict
+            print(error_dict)
             return 1
     head_object = sc.head_object(container, objectname)
 # If the object has a manifest, then it is a segmented file
     if 'x-object-manifest' in head_object:
-        print "segments"
+        print("segments")
         if verbose_mode == 2:
-            print "Calculating Segments: "
+            print("Calculating Segments: ")
         if verbose_mode != 0:
             display_header()
 
@@ -372,8 +372,8 @@ def main():
     if os.path.isdir(args.path):
 
         os.chdir(os.path.abspath(args.path))
-        print ""
-        print "Checking files in local directory:", os.getcwd()
+        print("")
+        print(("Checking files in local directory:", os.getcwd()))
         for root, dirs, files in os.walk('.', topdown=True):
             for name in files:
                 # If a path is specified in the 3rd argument, append
@@ -405,66 +405,66 @@ def main():
                 jobs.append(j)
         if os.getcwd() != savedPath:
             os.chdir(savedPath)
-        print "Files in directory:", len(jobs)
-        print " "
+        print(("Files in directory:", len(jobs)))
+        print(" ")
 
         filecount = 0
     # Start processing each job
         for j in jobs:
             filecount = filecount + 1
             if verbose_mode > 0:
-                print "\nProcessing:", filecount, "/", len(jobs)
+                print(("\nProcessing:", filecount, "/", len(jobs)))
     # Check the current file with swift object
-                print "Local File: ", j[1]
-                print "Swift Object: ", j[3]
-                print ""
+                print(("Local File: ", j[1]))
+                print(("Swift Object: ", j[3]))
+                print("")
 
             if compare_file_with_object(j[0], j[1], j[2], j[3]) == 0:
                 if verbose_mode > 0:
-                    print "Pass: ", j[1]
+                    print(("Pass: ", j[1]))
                 files_succeeded.append(j[1])
             else:
                 errors = errors + 1
                 if verbose_mode > 0:
-                    print "Fail: ", j[1]
+                    print(("Fail: ", j[1]))
                 files_failed.append(j[1])
 
     # Result summary
 
-        print ""
-        print "Files Processed:\n"
+        print("")
+        print("Files Processed:\n")
 
         for f in files_succeeded:
-            print "Pass: ", f
+            print(("Pass: ", f))
 
         for f in files_failed:
-            print "Fail: ", f
+            print(("Fail: ", f))
         
-        print ""
-        print "Summary:\n"
-        print "Matches:", len(jobs) - errors, "/", len(jobs)
-        print "Fails:", errors, "/", len(jobs)
+        print("")
+        print("Summary:\n")
+        print(("Matches:", len(jobs) - errors, "/", len(jobs)))
+        print(("Fails:", errors, "/", len(jobs)))
     
 
     # If path is a file then check only the file
     elif os.path.isfile(args.path):
-        print "Checking file"
+        print("Checking file")
         if verbose_mode > 0:
             display_header()
         if not args.object_or_path:
             if compare_file_with_object(sc, args.path, args.container,
                                         os.path.split(args.path)[1]) == 0:
-                print "Pass: ", args.path
+                print(("Pass: ", args.path))
             else:
-                print "Fail: ", args.path
+                print(("Fail: ", args.path))
                 errors = errors + 1
         else:
             if compare_file_with_object(sc, args.path, args.container,
                                         args.object_or_path) == 0:
-                print "Pass: ", args.path
+                print(("Pass: ", args.path))
             else:
                 errors = errors + 1
-                print "Fail: ", args.path
+                print(("Fail: ", args.path))
 
     exit
 

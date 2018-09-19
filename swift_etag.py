@@ -19,7 +19,7 @@ import argparse
 CHUNK_SIZE=16384
 
 def raise_error(error_msg):
-    print error_msg
+    print(error_msg)
     exit
 
 def split(filename,segment_size,create_segments):
@@ -27,15 +27,15 @@ def split(filename,segment_size,create_segments):
     hash = ""
     try:
         f = open(filename, 'rb')
-    except (OSError, IOError), e:
+    except (OSError, IOError) as e:
         raise_error("Could not open file")
     
     try:
         filesize = os.path.getsize(filename)
-        print ""
-        print "Processing: " + filename
-        print "File Size (Bytes): " + str(filesize)
-    except (OSError), e:
+        print("")
+        print("Processing: " + filename)
+        print("File Size (Bytes): " + str(filesize))
+    except (OSError) as e:
         raise_error("File size could not be determined")
 
     segment_count = 0
@@ -55,14 +55,14 @@ def split(filename,segment_size,create_segments):
         segment_filename = filename + "_segment_" + str(segment_count)
         
         if create_segments:
-            print "Create segment: " + segment_filename
+            print("Create segment: " + segment_filename)
         md5hash = hashlib.md5();
         
         #If create_segments then open a file to store current segment
         if create_segments:
             try:
                 f_segment = open(segment_filename, 'wb')
-            except (OSError, IOError), e:
+            except (OSError, IOError) as e:
                 raise_error("unable to create new segment")
         #Adjust segment size if we're near the end of the file
 
@@ -84,14 +84,14 @@ def split(filename,segment_size,create_segments):
                 chunk = f.read(n_bytes)
                 md5hash.update(chunk)
                 filehash.update(chunk)
-            except (OSError, IOError), e:
+            except (OSError, IOError) as e:
                 raise_error("Error reading from file")
             
             if create_segments:
                 #Write the bytes to segment
                 try:
                     f_segment.write(chunk)
-                except (OSError, IOError), e:
+                except (OSError, IOError) as e:
                     raise_error("Error writing to file")
             
 
@@ -102,12 +102,12 @@ def split(filename,segment_size,create_segments):
         if create_segments:
             try:
                 f_segment.close()
-            except (OSError, IOError), e:
+            except (OSError, IOError) as e:
                 raise_error("Error closing file")
         
         md5_seg = md5hash.hexdigest()
         hash = hash + md5_seg
-        print "Checksum for segment " + str(segment_count) + ": " + md5_seg
+        print("Checksum for segment " + str(segment_count) + ": " + md5_seg)
         
         #os.remove(segment_filename)
         segment_count = segment_count + 1
@@ -116,8 +116,8 @@ def split(filename,segment_size,create_segments):
     m = hashlib.md5()
     m.update(hash)
 
-    print "ETag of Concatenated Checksums: " + m.hexdigest()
-    print "MD5 Checksum: " + filehash.hexdigest()
+    print("ETag of Concatenated Checksums: " + m.hexdigest())
+    print("MD5 Checksum: " + filehash.hexdigest())
 
 def main():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
