@@ -228,7 +228,7 @@ def compare_file_with_object(sc, filename, container, objectname):
             return 1
     head_object = sc.head_object(container, objectname)
 # If the object has a manifest, then it is a segmented file
-    if 'x-object-manifest' in head_object:
+    if 'x-object-manifest' in head_object or cyberduck:
         print("segments")
         if verbose_mode == 2:
             print("Calculating Segments: ")
@@ -237,9 +237,13 @@ def compare_file_with_object(sc, filename, container, objectname):
 
         # Get thesegment container name so that we can list the segments for
         # the object
-
-        segment_container_name = sc.head_object(
-            container, objectname)['x-object-manifest'].split('/')[0]
+        
+        if cyberduck:
+            segment_container_name = container
+        else:
+            segment_container_name = sc.head_object(
+                container, objectname)['x-object-manifest'].split('/')[0]
+        
         segment_container = []
     # List all the objects in the container and store the assosciated hash,
     # name, bytes in a data structure
@@ -247,7 +251,10 @@ def compare_file_with_object(sc, filename, container, objectname):
                                                   full_listing='True')[1]
        
         for o in container_obj_list:
-            if head_object['x-object-manifest'][len(container + "_segments/"):] in o['name']:
+            if cyberduck and ".file-segments" in o['name']:
+                x = swift_obj(o['name'], o['hash'], o['bytes'])
+                segment_container.append(x)
+            elif head_object['x-object-manifest'][len(container + "_segments/"):] in o['name']:
                 x = swift_obj(o['name'], o['hash'], o['bytes'])
                 segment_container.append(x)
     # Begin the segmentation locally, using the segment size obtianed from
@@ -317,6 +324,7 @@ my_objects_start_with/this/prefix/or/path
     parser.add_argument('-c', '-credentials', help='Full path to openrc \
                         file to read OpenStack/Swift \
                         authentication credentials from')
+    parser.add_argument('-d', '-duck', help='Cyberduck compatibility', action='store_true')
     parser.add_argument('-v', help="Verbose mode: Displays the md5 hashes \
                         of each file and object.\
                         Display ETag calculation", action='store_true')
@@ -360,6 +368,12 @@ def main():
         raise_error("Swift connection failed")
 
     savedPath = os.getcwd()
+
+    global cyberduck
+    cyberduck = False
+
+    if args.d:
+      cyberduck = True
 
     # If path is a directory, then scan all files and folders in directory
     # recursively.
