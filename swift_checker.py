@@ -254,9 +254,10 @@ def compare_file_with_object(sc, filename, container, objectname):
             if cyberduck and ".file-segments" in o['name']:
                 x = swift_obj(o['name'], o['hash'], o['bytes'])
                 segment_container.append(x)
-            elif head_object['x-object-manifest'][len(container + "_segments/"):] in o['name']:
-                x = swift_obj(o['name'], o['hash'], o['bytes'])
-                segment_container.append(x)
+            if not cyberduck:
+                if head_object['x-object-manifest'][len(container + "_segments/"):] in o['name']:
+                    x = swift_obj(o['name'], o['hash'], o['bytes'])
+                    segment_container.append(x)
     # Begin the segmentation locally, using the segment size obtianed from
     # the first object in the segment container
     # Supply the segment_container data structure such that comparisons can be
@@ -373,6 +374,7 @@ def main():
     cyberduck = False
 
     if args.d:
+      print("Running in cyberduck compatability mode")
       cyberduck = True
 
     # If path is a directory, then scan all files and folders in directory
