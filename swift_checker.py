@@ -251,7 +251,7 @@ def compare_file_with_object(sc, filename, container, objectname):
                                                   full_listing='True')[1]
        
         for o in container_obj_list:
-            if cyberduck and ".file-segments" in o['name']:
+            if cyberduck and ".file-segments/" + objectname + "/" in o['name']:
                 x = swift_obj(o['name'], o['hash'], o['bytes'])
                 segment_container.append(x)
             if not cyberduck:
