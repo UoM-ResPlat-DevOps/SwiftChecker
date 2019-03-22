@@ -249,23 +249,25 @@ def compare_file_with_object(sc, filename, container, objectname):
     # name, bytes in a data structure
         container_obj_list = sc.get_container(segment_container_name,
                                                   full_listing='True')[1]
-       
-        for o in container_obj_list:
-            if cyberduck and ".file-segments/" + objectname + "/" in o['name']:
-                x = swift_obj(o['name'], o['hash'], o['bytes'])
-                segment_container.append(x)
-            if not cyberduck:
-                if head_object['x-object-manifest'][len(container + "_segments/"):] in o['name']:
+        if len(container_obj_list) > 0:
+            for o in container_obj_list:
+                if cyberduck and ".file-segments/" + objectname + "/" in o['name']:
                     x = swift_obj(o['name'], o['hash'], o['bytes'])
                     segment_container.append(x)
+                if not cyberduck:
+                    if head_object['x-object-manifest'][len(container + "_segments/"):] in o['name']:
+                        x = swift_obj(o['name'], o['hash'], o['bytes'])
+                        segment_container.append(x)
     # Begin the segmentation locally, using the segment size obtianed from
     # the first object in the segment container
     # Supply the segment_container data structure such that comparisons can be
     # made between calculated hash and swift value.
-        local_hash = split(
-            filename, segment_container[0].object_bytes, segment_container)
+            local_hash = split(
+                filename, segment_container[0].object_bytes, segment_container)
     # The object has no manifest, therefore it is not segmented.
-
+        else:
+            local_hash = md5sum(filename)
+            swift_etag = swift_etag.strip('"')
     else:
             # Calculate the md5hash locally and compare against the ETag.
         local_hash = md5sum(filename)
